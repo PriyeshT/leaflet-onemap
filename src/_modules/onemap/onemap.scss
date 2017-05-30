@@ -1,0 +1,25 @@
+// onemap styles
+.map-container {
+    position: relative;
+}
+
+#map {
+    max-width: 940px;
+    width: 100%;
+    height: 600px;
+    margin: 10px auto;
+    position: relative;
+}
+
+.overlay-panels {
+    border-radius: 4px;
+    max-width: 940px;
+    width: 98%;
+    margin: 10px auto;
+    position: absolute;
+    bottom: 0;
+    z-index: 1000;
+    background: #eee;
+    right: 0;
+    left: 0;
+}
