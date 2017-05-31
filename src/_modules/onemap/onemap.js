@@ -42,7 +42,10 @@ export default class Onemap {
 
     let geocoderOptions = {
       url: 'https://developers.onemap.sg/commonapi/search?searchVal=',
-      addtionalParams: '&returnGeom=Y&getAddrDetails=Y'
+      addtionalParams: '&returnGeom=Y&getAddrDetails=Y',
+      reverseUrl: 'https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location={location}&token=',
+      reverseAddtionalParams: '&buffer=200&addressType=all&otherFeatures=Y',
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTU4OTgzOTYsImV4cCI6MTQ5NjMzMDM5NiwibmJmIjoxNDk1ODk4Mzk2LCJqdGkiOiJjZWFiY2M1MWVmZjY2OTk2N2ZjNGQwMzlhNjgzNDQ4NiJ9.oQvTnEE5U1b86rEYmwQQ374S3pbi4IjC3mNubESM7Q0'
     }
 
     L.Routing.control({
