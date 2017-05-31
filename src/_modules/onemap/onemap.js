@@ -2,7 +2,9 @@
 
 import L from 'leaflet';
 import 'leaflet-routing-machine';
+import 'leaflet-control-geocoder';
 import './L.Routing.Onemap';
+import './L.Control.Geocoder.OneMap';
 
 export default class Onemap {
   constructor() {
@@ -38,12 +40,19 @@ export default class Onemap {
       token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTU4OTgzOTYsImV4cCI6MTQ5NjMzMDM5NiwibmJmIjoxNDk1ODk4Mzk2LCJqdGkiOiJjZWFiY2M1MWVmZjY2OTk2N2ZjNGQwMzlhNjgzNDQ4NiJ9.oQvTnEE5U1b86rEYmwQQ374S3pbi4IjC3mNubESM7Q0'
     }
 
+    let geocoderOptions = {
+      url: 'https://developers.onemap.sg/commonapi/search?searchVal=',
+      addtionalParams: '&returnGeom=Y&getAddrDetails=Y'
+    }
+
     L.Routing.control({
       waypoints: [
         L.latLng(1.27952926027096, 103.844124406938),
         L.latLng(1.37550739111958, 103.902779987401)
       ],
+      geocoder: L.Control.Geocoder.onemap(geocoderOptions),
       router: L.Routing.oneMap(options),
+      reverseWaypoints: true,
       routeWhileDragging: true,
       revereseWaypoints: true
     }).addTo(map);

@@ -5,6 +5,7 @@
     "corslite": "0.0.7",
     "jquery": "~2.2.0",
     "leaflet": "^1.0.3",
+    "leaflet-control-geocoder": "^1.5.4",
     "leaflet-routing-machine": "^3.2.5",
     "normalize.css": "~3.0.3",
     "polyline": "^0.2.0"
