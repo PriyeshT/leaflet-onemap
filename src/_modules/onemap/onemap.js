@@ -30,26 +30,27 @@ export default class Onemap {
     basemap.addTo(map);
 
 
-    let startpoint = 1.27952926027096 + ',' + 103.844124406938,
-        endpoint = 1.37550739111958 + ',' +103.902779987401;
+    // let startpoint = 1.27952926027096 + ',' + 103.844124406938,
+    //     endpoint = 1.37550739111958 + ',' +103.902779987401;
 
     let options = {
       timeout: 30 * 1000,
       url: 'https://developers.onemap.sg/privateapi/routingsvc/route?start={start}&end={end}&routeType={routeType}&token=',
       routeType: 'Drive',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTU4OTgzOTYsImV4cCI6MTQ5NjMzMDM5NiwibmJmIjoxNDk1ODk4Mzk2LCJqdGkiOiJjZWFiY2M1MWVmZjY2OTk2N2ZjNGQwMzlhNjgzNDQ4NiJ9.oQvTnEE5U1b86rEYmwQQ374S3pbi4IjC3mNubESM7Q0'
-    }
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+    };
 
     let geocoderOptions = {
       url: 'https://developers.onemap.sg/commonapi/search?searchVal=',
       addtionalParams: '&returnGeom=Y&getAddrDetails=Y',
       reverseUrl: 'https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location={location}&token=',
       reverseAddtionalParams: '&buffer=200&addressType=all&otherFeatures=Y',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTU4OTgzOTYsImV4cCI6MTQ5NjMzMDM5NiwibmJmIjoxNDk1ODk4Mzk2LCJqdGkiOiJjZWFiY2M1MWVmZjY2OTk2N2ZjNGQwMzlhNjgzNDQ4NiJ9.oQvTnEE5U1b86rEYmwQQ374S3pbi4IjC3mNubESM7Q0'
-    }
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+    };
 
     L.Routing.control({
       waypoints: [
+        L.latLng(1.31273862337471,103.815254098559),
         L.latLng(1.27952926027096, 103.844124406938),
         L.latLng(1.37550739111958, 103.902779987401)
       ],
@@ -57,8 +58,10 @@ export default class Onemap {
       router: L.Routing.oneMap(options),
       reverseWaypoints: true,
       routeWhileDragging: true,
-      revereseWaypoints: true
-    }).addTo(map);
+      revereseWaypoints: true,
+      showAlternatives: true
+    })
+    .addTo(map);
 
 
   }
