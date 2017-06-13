@@ -4,7 +4,8 @@
 
   let L = require('leaflet'),
     corslite = require('corslite'),
-    polyline = require('polyline');
+    polyline = require('polyline'),
+    _ = require('lodash');
 
   L.Routing = L.Routing || {};
 
@@ -25,7 +26,10 @@
         instructions = [],
         coordinates = [];
 
-      let test = [];
+      let finalInstructions = [],
+        finalCoordinates = [],
+        totalTime = 0,
+        totalDistance = 0;
 
       options = this.options || {};
       //build the url for onemap routing
@@ -33,8 +37,6 @@
       for(let i=0; i < waypoints.length - 1; i++) {
         currWaypoints.push([waypoints[i], waypoints[i+1]]);
       }
-
-      console.log('currWaypoints -- ',currWaypoints);
 
       for(let i=0; i < currWaypoints.length; i++){
         let url = this.buildRouteUrl(currWaypoints[i], options);
@@ -56,7 +58,19 @@
               //get the response text from the response
               data = JSON.parse(res.responseText);
               //call _routeDone with the response text
-              this._routeDone(data, wps, callback, context, i, instructions, coordinates, test);
+              const routeDoneParameters = {
+                'response': data,
+                'wps': wps,
+                'index': i,
+                'instructions': instructions,
+                'coordinates': coordinates,
+                'finalInstructions': finalInstructions,
+                'finalCoordinates': finalCoordinates,
+                'totalTime': totalTime,
+                'totalDistance': totalDistance,
+                'currWaypoints': currWaypoints
+              };
+              this._routeDone(data, wps, callback, context, i, instructions, coordinates, finalInstructions, finalCoordinates,totalTime, totalDistance, currWaypoints);
             } else {
               callback.call(context || callback, {
                 status: -1,
@@ -71,7 +85,7 @@
 
     },
 
-    _routeDone: function(response, inputWaypoints, callback, context, index, instructions, coordinates, test) {
+    _routeDone: function(response, inputWaypoints, callback, context, index, instructions, coordinates, finalInstructions, finalCoordinates,totalTime, totalDistance, currWaypoints) {
       let alts = [];
       //   coordinates = [],
       //   instructions;
@@ -87,31 +101,40 @@
         return;
       }
 
+      totalTime += response.route_summary.total_time;
+      totalDistance += response.route_summary.total_distance;
+
       instructions = this._convertInstructions(response.route_instructions);
-      test.push(instructions);
-      console.log('instructions -- after', instructions);
-      console.log('test -- after', test);
+      for(let i =0; i < instructions.length; i++){
+        finalInstructions.push(instructions[i]);
+      }
 
       coordinates = this._decodePolyline(response.route_geometry);
-      // mappedWaypoints = this._mapWaypointIndices(inputWaypoints, instructions, coordinates);
-      alts = [{
-        name: '',
-        coordinates: coordinates,
-        inputWaypoints: inputWaypoints,
-        instructions: instructions,
-        summary: {
-          totalDistance: response.route_summary.total_distance,
-          totalTime: response.route_summary.total_time
-        },
-        // actualWaypoints: mappedWaypoints.waypoints
-      }];
+      for(let i=0; i < coordinates.length; i++) {
+        finalCoordinates.push(coordinates[i]);
+      }
 
-      callback.call(context, null, alts);
+      if(index == currWaypoints.length -1 ) {
+        alts = [{
+          name: '',
+          coordinates: finalCoordinates,
+          inputWaypoints: inputWaypoints,
+          instructions: finalInstructions,
+          summary: {
+            totalDistance: totalDistance,
+            totalTime: totalTime
+          }
+          // actualWaypoints: mappedWaypoints.waypoints
+        }];
+        callback.call(context, null, alts);
 
+      }
       let directionsList = $('.leaflet-routing-container table').clone().html();
       $('.directions-table').html(directionsList);
+      // mappedWaypoints = this._mapWaypointIndices(inputWaypoints, instructions, coordinates);
 
-      return alts;
+
+      // return alts;
 
 
       // $('.leaflet-routing-container').hide();

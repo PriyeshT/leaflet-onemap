@@ -49,17 +49,15 @@ export default class Onemap {
     };
 
     L.Routing.control({
-      waypoints: [
-        L.latLng(1.31273862337471,103.815254098559),
-        L.latLng(1.27952926027096, 103.844124406938),
-        L.latLng(1.37550739111958, 103.902779987401)
-      ],
+      // waypoints: [
+      //   L.latLng(1.31273862337471,103.815254098559),
+      //   L.latLng(1.27952926027096, 103.844124406938)
+      // ],
       geocoder: L.Control.Geocoder.onemap(geocoderOptions),
       router: L.Routing.oneMap(options),
       reverseWaypoints: true,
       routeWhileDragging: true,
-      revereseWaypoints: true,
-      showAlternatives: true
+      revereseWaypoints: true
     })
     .addTo(map);
 
