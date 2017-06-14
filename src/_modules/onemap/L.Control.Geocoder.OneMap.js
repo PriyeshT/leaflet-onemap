@@ -19,7 +19,6 @@
 
 			let url = this.buildGeocodeUrl(options, query);
 
-			console.log('url -- ', url);
 
 			corslite(url, L.bind(function(err,res){
 				let data,
