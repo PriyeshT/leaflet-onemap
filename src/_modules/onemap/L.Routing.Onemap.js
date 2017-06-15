@@ -13,23 +13,24 @@
 
   L.Routing.Onemap = L.Class.extend({
 
+
     initialize: function(options) {
       L.Util.setOptions(this, options);
     },
 
     route: function(waypoints, callback, context, options) {
-      let timedOut = false,
+      let wp,
         wps = [],
-        timer,
-        wp,
-        alts = [],
         instructions = [],
         coordinates = [],
         summary = [];
 
       let finalInstructions = [],
         finalCoordinates = [],
-        finalSummary = [],
+        finalSummary = {
+          totalTime: 0,
+          totalDistance: 0
+        },
         totalTime = 0,
         totalDistance = 0;
 
@@ -37,6 +38,8 @@
 
       options = this.options || {};
       //build the url for onemap routing
+
+      // this.createMarker(waypoints);
 
       for(let i=0; i < waypoints.length - 1; i++) {
         currWaypoints.push([waypoints[i], waypoints[i+1]]);
@@ -51,49 +54,30 @@
         });
       }
 
-      this.getOneMapRouteData(currWaypoints[0], 0, options, currWaypoints,callback, context, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance);
+      let routeOptions = {
+        options: options,
+        currWaypoints: currWaypoints,
+        instructions: instructions,
+        coordinates: coordinates,
+        summary: summary,
+        finalSummary: finalSummary,
+        finalInstructions: finalInstructions,
+        finalCoordinates: finalCoordinates,
+        totalTime: totalTime,
+        totalDistance: totalDistance
+      };
 
-      // for(let i=0; i < currWaypoints.length; i++){
-      //   let url = this.buildRouteUrl(currWaypoints[i], options);
-      //   console.log('the url %i is %s', i, url);
-
-
-      //   corslite(url, L.bind(function(err, res){
-      //     let data;
-
-      //     if(!timedOut) {
-      //       if(!err) {
-      //         //get the response text from the response
-      //         data = JSON.parse(res.responseText);
-      //         //call _routeDone with the response text
-      //         const routeDoneParameters = {
-      //           'response': data,
-      //           'wps': wps,
-      //           'index': i,
-      //           'instructions': instructions,
-      //           'coordinates': coordinates,
-      //           'finalInstructions': finalInstructions,
-      //           'finalCoordinates': finalCoordinates,
-      //           'totalTime': totalTime,
-      //           'totalDistance': totalDistance,
-      //           'currWaypoints': currWaypoints
-      //         };
-      //         this._routeDone(data, wps, callback, context, i, instructions, coordinates, finalInstructions, finalCoordinates,totalTime, totalDistance, currWaypoints);
-      //       } else {
-      //         callback.call(context || callback, {
-      //           status: -1,
-      //           message: 'HTTP Request Failed: '
-      //         });
-      //       }
-      //     }
-      //   }, this));
-      // }
-      // url = this.buildRouteUrl(waypoints, options);
+      // this.getOneMapRouteData(currWaypoints[0], 0, options, currWaypoints,callback, context, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance);
+      this.getOneMapRouteData(currWaypoints[0], 0, callback, context, routeOptions);
       return this;
 
     },
 
-    getOneMapRouteData: function(waypoints, i, options, currWaypoints,callback, context, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance) {
+    // getOneMapRouteData: function(waypoints, i, options, currWaypoints,callback, context, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance) {
+    getOneMapRouteData: function(waypoints, i, callback, context, routeOptions) {
+
+      let {options, currWaypoints, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates} = routeOptions;
+
       let url = this.buildRouteUrl(waypoints, options);
 
       corslite(url, L.bind(function(err,res){
@@ -101,13 +85,21 @@
 
         if(!err) {
           data = JSON.parse(res.responseText);
-          this._routeDone(data, waypoints, callback, context, i, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance, currWaypoints);
+          let routeDoneOptions = {
+            response: data,
+            inputWaypoints: waypoints,
+            instructions: instructions,
+            coordinates: coordinates,
+            summary: summary,
+            finalInstructions: finalInstructions,
+            finalCoordinates: finalCoordinates,
+            finalSummary: finalSummary
+          };
+          this._routeDone(callback, context, i, routeDoneOptions);
 
           if( i < currWaypoints.length -1) {
             i++;
-            this.getOneMapRouteData(currWaypoints[i], i, options, currWaypoints,callback, context, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance);
-          } else {
-            //TODO: add alts object here and make call to callback
+            this.getOneMapRouteData(currWaypoints[i], i, callback, context, routeOptions);
           }
 
         } else {
@@ -120,12 +112,26 @@
 
     },
 
-    _routeDone: function(response, inputWaypoints, callback, context, index, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates,totalTime, totalDistance, currWaypoints) {
-      let alts = [];
-      //   coordinates = [],
-      //   instructions;
+    createMarker: function(waypoints) {
+      let markerIcon = L.icon({
+        iconUrl: 'images/marker-icon-2x.png',
+        iconSize: [30,30],
+        shadowSize: [30,30]
+      });
 
-      console.log('index in _routeDone -- ', index);
+      for(let i = 0; i < waypoints.length; i++){
+        let latLng = waypoints[i].latLng;
+
+        L.marker(latLng, {
+          icon: markerIcon
+        }).addTo(map);
+      }
+    },
+
+    _routeDone: function(callback, context, index, routeDoneOptions) {
+      let alts = [];
+
+      let {response, inputWaypoints, instructions, coordinates, summary, finalSummary, finalInstructions, finalCoordinates} = routeDoneOptions;
 
       context = context || callback;
       if(response.error && response.error.description) {
@@ -135,9 +141,6 @@
         });
         return;
       }
-
-      totalTime += response.route_summary.total_time;
-      totalDistance += response.route_summary.total_distance;
 
       instructions = this._convertInstructions(response.route_instructions);
       for(let i =0; i < instructions.length; i++){
@@ -162,21 +165,10 @@
           totalDistance: finalSummary.totalDistance,
           totalTime: finalSummary.totalTime
         }
-        // actualWaypoints: mappedWaypoints.waypoints
       }];
       callback.call(context, null, alts);
-      // if(index == currWaypoints.length -1 ) {
-
-      // }
       let directionsList = $('.leaflet-routing-container table').clone().html();
       $('.directions-table').html(directionsList);
-      // mappedWaypoints = this._mapWaypointIndices(inputWaypoints, instructions, coordinates);
-
-
-      // return alts;
-
-
-      // $('.leaflet-routing-container').hide();
 
     },
 
