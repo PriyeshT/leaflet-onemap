@@ -227,7 +227,6 @@
       let result = [],
         i;
 
-      console.log('summaries -- ', summaries);
 
       for(i =0; i < summaries.length; i++) {
         let coordinate = summaries[i][3].split(',');
@@ -236,8 +235,6 @@
           lat: coordinate[0],
           lng: coordinate[1]
         };
-        console.log(typeof coordinate[0]);
-        console.log("latlng -- ", coordObj);
         result.push({
           coordinate: coordObj,
           text: summaries[i][9],
