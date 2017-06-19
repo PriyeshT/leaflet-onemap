@@ -156,6 +156,8 @@
       finalSummary.totalTime += summary.totalTime;
       finalSummary.totalDistance += summary.totalDistance;
 
+      console.log('finalcoordinates --- ', finalCoordinates);
+
       alts = [{
         name: '',
         coordinates: finalCoordinates,
@@ -225,8 +227,19 @@
       let result = [],
         i;
 
+      console.log('summaries -- ', summaries);
+
       for(i =0; i < summaries.length; i++) {
+        let coordinate = summaries[i][3].split(',');
+        // let latLng = L.LatLng(coordinate[0], coordinate[1]);
+        let coordObj = {
+          lat: coordinate[0],
+          lng: coordinate[1]
+        };
+        console.log(typeof coordinate[0]);
+        console.log("latlng -- ", coordObj);
         result.push({
+          coordinate: coordObj,
           text: summaries[i][9],
           distance: parseInt(summaries[i][5]),
           time: ''

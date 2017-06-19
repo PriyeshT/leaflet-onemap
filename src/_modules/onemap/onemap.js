@@ -35,7 +35,7 @@ export default class Onemap {
       timeout: 30 * 1000,
       url: 'https://developers.onemap.sg/privateapi/routingsvc/route?start={start}&end={end}&routeType={routeType}&token=',
       routeType: 'Drive',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQ0MiwidXNlcl9pZCI6NDQyLCJlbWFpbCI6IndhbmdfaHNpbl9wZWlAbnBhcmtzLmdvdi5zZyIsImZvcmV2ZXIiOmZhbHNlLCJpc3MiOiJodHRwOlwvXC9vbTIuZGZlLm9uZW1hcC5zZ1wvYXBpXC92MlwvdXNlclwvc2Vzc2lvbiIsImlhdCI6MTQ5Nzc4NTE4NCwiZXhwIjoxNDk4MjE3MTg0LCJuYmYiOjE0OTc3ODUxODQsImp0aSI6ImI2YzA0N2NlNGFjYTgzYWM0YjM1NGIxYmE3NmUwNGY3In0.WUjMJ-O5RQs7y9kQQlSIS_3Z0vxWaJxHSNvM0lGYtRQ'
     };
 
     let geocoderOptions = {
@@ -43,7 +43,7 @@ export default class Onemap {
       addtionalParams: '&returnGeom=Y&getAddrDetails=Y',
       reverseUrl: 'https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location={location}&token=',
       reverseAddtionalParams: '&buffer=200&addressType=all&otherFeatures=Y',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQ0MiwidXNlcl9pZCI6NDQyLCJlbWFpbCI6IndhbmdfaHNpbl9wZWlAbnBhcmtzLmdvdi5zZyIsImZvcmV2ZXIiOmZhbHNlLCJpc3MiOiJodHRwOlwvXC9vbTIuZGZlLm9uZW1hcC5zZ1wvYXBpXC92MlwvdXNlclwvc2Vzc2lvbiIsImlhdCI6MTQ5Nzc4NTE4NCwiZXhwIjoxNDk4MjE3MTg0LCJuYmYiOjE0OTc3ODUxODQsImp0aSI6ImI2YzA0N2NlNGFjYTgzYWM0YjM1NGIxYmE3NmUwNGY3In0.WUjMJ-O5RQs7y9kQQlSIS_3Z0vxWaJxHSNvM0lGYtRQ'
     };
 
     let markerIcon = L.icon({
