@@ -156,6 +156,8 @@
       finalSummary.totalTime += summary.totalTime;
       finalSummary.totalDistance += summary.totalDistance;
 
+      console.log('finalcoordinates --- ', finalCoordinates);
+
       alts = [{
         name: '',
         coordinates: finalCoordinates,
@@ -224,6 +226,7 @@
     _convertInstructions: function(summaries) {
       let result = [],
         i;
+
 
       for(i =0; i < summaries.length; i++) {
         let coordinate = summaries[i][3].split(',');

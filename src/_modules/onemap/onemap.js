@@ -1,8 +1,6 @@
 'use strict';
 
 import 'leaflet';
-import esri from 'esri-leaflet';
-import 'esri-leaflet-renderers';
 import 'leaflet-routing-machine';
 import 'leaflet-control-geocoder';
 import './L.Routing.Onemap';
@@ -32,11 +30,6 @@ export default class Onemap {
     map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
 
     basemap.addTo(map);
-
-    let featureLayer = esri.featureLayer({
-      url: 'https://imaven.nparks.gov.sg/arcgis/rest/services/maven/corpweb/MapServer/0',
-      rendererType: 'Unique Value'
-    });
 
     let options = {
       timeout: 30 * 1000,
