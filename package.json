@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "dependencies": {
     "corslite": "0.0.7",
+    "esri-leaflet": "^2.0.8",
+    "esri-leaflet-renderers": "^2.0.6",
     "jquery": "~2.2.0",
     "leaflet": "^1.0.3",
     "leaflet-control-geocoder": "^1.5.4",
-    "leaflet-routing-machine": "^3.2.5",
     "lodash": "^4.0.1",
     "normalize.css": "~3.0.3",
     "polyline": "^0.2.0"
@@ -20,6 +21,7 @@
     "babelify": "~7.3.0",
     "browser-sync": "~2.13.0",
     "browserify": "~13.0.1",
+    "browserify-shim": "^3.8.14",
     "del": "~2.2.0",
     "envify": "~3.4.0",
     "foldero": "~0.1.1",
@@ -68,6 +70,18 @@
   },
   "engines": {
     "node": ">=0.12.0"
+  },
+  "browserify": {
+    "transform": [ "browserify-shim" ]
+  },
+  "browser": {
+    "leaflet-routing-machine": "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.js"
+  },
+  "browserify-shim": {
+    "leaflet-routing-machine": {
+      "exports": null,
+      "depends": "jquery:$"
+    }
   },
   "//": "CUSTOM CONFIGURATION",
   "config": {

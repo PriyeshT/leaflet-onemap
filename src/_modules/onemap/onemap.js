@@ -1,6 +1,8 @@
 'use strict';
 
-import L from 'leaflet';
+import 'leaflet';
+import esri from 'esri-leaflet';
+import 'esri-leaflet-renderers';
 import 'leaflet-routing-machine';
 import 'leaflet-control-geocoder';
 import './L.Routing.Onemap';
@@ -31,11 +33,16 @@ export default class Onemap {
 
     basemap.addTo(map);
 
+    let featureLayer = esri.featureLayer({
+      url: 'https://imaven.nparks.gov.sg/arcgis/rest/services/maven/corpweb/MapServer/0',
+      rendererType: 'Unique Value'
+    });
+
     let options = {
       timeout: 30 * 1000,
       url: 'https://developers.onemap.sg/privateapi/routingsvc/route?start={start}&end={end}&routeType={routeType}&token=',
       routeType: 'Drive',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTgwOTkxODgsImV4cCI6MTQ5ODUzMTE4OCwibmJmIjoxNDk4MDk5MTg4LCJqdGkiOiI1MGFiZWFlNWI2ZmM4OWExN2RhZTAwZDQzZGE2MjMxNCJ9.fBz8WsJvlzs9ibqOkwOcY3Y8oD9hmhVcBCJtjJeZukw'
     };
 
     let geocoderOptions = {
@@ -43,7 +50,7 @@ export default class Onemap {
       addtionalParams: '&returnGeom=Y&getAddrDetails=Y',
       reverseUrl: 'https://developers.onemap.sg/privateapi/commonsvc/revgeocode?location={location}&token=',
       reverseAddtionalParams: '&buffer=200&addressType=all&otherFeatures=Y',
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTcyMDY3MDUsImV4cCI6MTQ5NzYzODcwNSwibmJmIjoxNDk3MjA2NzA1LCJqdGkiOiJlMmUzZjQwZjllMzlkZDAzYTVkYzdkM2JjMWUwNTNmYiJ9.158lpVy8CBb5dMDR2ahkTQHp8k42WjZmHLOqm6vHihM'
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI5NiwidXNlcl9pZCI6Mjk2LCJlbWFpbCI6InByaXllc2gudHVuZ2FyZUBhZGVscGhpLmRpZ2l0YWwiLCJmb3JldmVyIjpmYWxzZSwiaXNzIjoiaHR0cDpcL1wvb20yLmRmZS5vbmVtYXAuc2dcL2FwaVwvdjJcL3VzZXJcL3Nlc3Npb24iLCJpYXQiOjE0OTgwOTkxODgsImV4cCI6MTQ5ODUzMTE4OCwibmJmIjoxNDk4MDk5MTg4LCJqdGkiOiI1MGFiZWFlNWI2ZmM4OWExN2RhZTAwZDQzZGE2MjMxNCJ9.fBz8WsJvlzs9ibqOkwOcY3Y8oD9hmhVcBCJtjJeZukw'
     };
 
     let markerIcon = L.icon({

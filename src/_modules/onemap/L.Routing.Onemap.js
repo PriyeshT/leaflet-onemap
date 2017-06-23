@@ -226,7 +226,14 @@
         i;
 
       for(i =0; i < summaries.length; i++) {
+        let coordinate = summaries[i][3].split(',');
+        // let latLng = L.LatLng(coordinate[0], coordinate[1]);
+        let coordObj = {
+          lat: coordinate[0],
+          lng: coordinate[1]
+        };
         result.push({
+          coordinate: coordObj,
           text: summaries[i][9],
           distance: parseInt(summaries[i][5]),
           time: ''

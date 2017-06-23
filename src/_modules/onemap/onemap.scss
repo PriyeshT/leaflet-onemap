@@ -1,6 +1,15 @@
 // onemap styles
 .map-container {
     position: relative;
+
+    .title {
+        text-align: center;
+        text-decoration: underline;
+        line-height: 1.2;
+        letter-spacing: 1.2px;
+    }
+
+
 }
 
 #map {
